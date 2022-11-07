@@ -1,0 +1,72 @@
+version: '3'
+services:
+
+  mariadb:
+    build: ./requirements/mariadb
+    image: mariadb_image
+    container_name: database
+    ports:
+        - '3306:3306'
+    volumes:
+        - db:/var/lib/mysql
+    env_file:
+        - .env
+    networks:
+        - application
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=wordpress
+
+
+  nginx:
+    build: ./requirements/nginx
+    image: nginx_image
+    depends_on: 
+      - wordpress
+    container_name: Server
+    ports:
+        - '443:443'
+    volumes:
+        - wordpress:/var/www/html
+    restart: unless-stopped
+    networks:
+        - application
+ 
+  wordpress:
+    depends_on: 
+      - mariadb
+    build: ./requirements/wordpress
+    container_name: webapp
+    image: wp_image
+    ports:
+        - '9000:9000'
+    volumes:
+        - wordpress:/var/www/html
+    env_file:
+        - .env
+    environment:
+        - WORDPRESS_DB_HOST=db:3306
+        - WORDPRESS_DB_USER=$USER
+        - WORDPRESS_DB_PASSWORD=$PASSWORD
+        - WORDPRESS_DB_NAME=wordpress
+    networks:
+        - application
+    restart: unless-stopped
+
+volumes:
+  db:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /Users/amaaiza/db
+  wordpress:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /Users/amaaiza/wp
+
+networks:
+    application:
+        driver: bridge
