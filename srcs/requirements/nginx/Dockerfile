@@ -9,5 +9,5 @@ RUN apt-get -y install nginx
 ADD conf/default /etc/nginx/sites-available/
 ADD tools/nginx-selfsigned.crt /etc/ssl/certs/nginx-selfsigned.crt
 ADD tools/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key
-#CMD ["nginx", "-g", "daemon off;"]
-ENTRYPOINT /etc/init.d/nginx start -g "daemon off;";
+CMD ["nginx", "-g", "daemon off;"]
+#ENTRYPOINT /etc/init.d/nginx start -g "daemon off;";
