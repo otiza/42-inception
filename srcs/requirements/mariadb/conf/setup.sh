@@ -1,5 +1,6 @@
 #!/bin/bash
-if [ "$(ls -A /var/lib/mysql/${DBNAME})" ]; then
+
+if [ "$(ls -A /var/lib/mysql/${DB_NAME})" ]; then
     echo "Database already set up"
 else    
     mkdir /var/run/mysqld 
