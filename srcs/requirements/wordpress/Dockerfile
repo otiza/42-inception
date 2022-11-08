@@ -1,10 +1,9 @@
 
 FROM debian:buster
-RUN apt-get update -y && apt-get upgrade -y && \
-    apt-get install -y php7.3-fpm php7.3-mysql
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install -y php7.3-fpm php7.3-mysql
 COPY /conf/wordpress /wordpress
 COPY /conf/script.sh /
 COPY /conf/wp-config.php /
-RUN chmod +x /script.sh
-
+RUN chmod 777 /script.sh
 ENTRYPOINT sh /script.sh
