@@ -61,13 +61,13 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /Users/amaaiza/db
+      device: /home/amaaiza/data/db
   wordpress:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: /Users/amaaiza/wp
+      device: /home/amaaiza/data/wp
 
 networks:
     application:
